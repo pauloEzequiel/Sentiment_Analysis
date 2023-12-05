@@ -28,17 +28,20 @@ def analysis_text(body:SentimentAnalysisBody):
        Endpoint destinado a analise do texto informado
 
     """
-    model = get_model()
-    sentiment, confidence, probabilities = model.predict(body.text)
+    try:
+        model = get_model()
+        sentiment, confidence, probabilities = model.predict(body.text)
 
-    result_analysis = SentimentAnalysisResponse(sentiment=sentiment, confidence= confidence, probabilities= probabilities)
+        result_analysis = SentimentAnalysisResponse(sentiment=sentiment, confidence= confidence, probabilities= probabilities)
 
-    probabilities= {
-        'positive': result_analysis.probabilities['positive'],
-        'neutral' : result_analysis.probabilities['neutral'],
-        'negative': result_analysis.probabilities['negative']
-    }
+        probabilities= {
+            'positive': result_analysis.probabilities['positive'],
+            'neutral' : result_analysis.probabilities['neutral'],
+            'negative': result_analysis.probabilities['negative']
+        }
 
-    return jsonify(sentiment=result_analysis.sentiment, confidence= result_analysis.confidence, probabilities = probabilities )
+        return jsonify(sentiment=result_analysis.sentiment, confidence= result_analysis.confidence, probabilities = probabilities )
+    except:
+        return {"message": "Falha ao analisar texto"}, 400
 
 
