@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript'
+        src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" integrity="sha512-V0j9LhrK9IMNdFYZqh+IqU4cjo7wdxyHNyH+L0td4HryBuZ7Oq6QxP2/CWr6TituX31+gv5PnolvERuTbz8UNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Análise de Sentimento</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            overflow-x : hidden;
+            overflow-y: auto ; /* Evita a barra de rolagem vertical */
+        }
+
+        header, footer {
+            background-color: #8b659e; /* Cor semelhante à do Nubank */
+            color: #fff;
+            padding: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 25px; /* Altura do cabeçalho e rodapé */
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 50%;
+            max-width: 1024px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            flex: 1; /* Ocupar todo o espaço disponível */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 18px;
+            resize: vertical;
+            height: 200px;
+        }
+
+        button {
+            background-color: #8a05be; /* Cor semelhante à do Nubank */
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6e0480; /* Cor semelhante à do Nubank no hover */
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #myDiv{
+            margin-top: 20px;
+            align-items: center;
+            height: 200px;
+            width: 500px
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h3 style="margin-left: 20px;">Minha Aplicação</h1>
+</header>
+
+<div class="container">
+    <h1>Análise de Sentimento</h1>
+    <textarea id="textoEntrada" placeholder="Digite seu texto aqui" rows="4"></textarea>
+    <button onclick="analisarSentimento()">Analisar</button>
+    <div id="resultado"> </div>
+    <div style = "display: flex; justify-content: center;">
+        <div id='myDiv'> </div>
+    </div>
+   
+    
+</div>
+
+<footer>
+    <p style="margin-right: 40px; margin-left: 20px;">Paulo Ezequiel Dias dos Santos</p>
+    <p>&copy; 2023 Minha Aplicação</p>
+</footer>
+
+<script>
+    function analisarSentimento() {
+        var textoEntrada = document.getElementById('textoEntrada').value;
+        var resultadoElemento = document.getElementById('resultado');
+
+        axios.post(`http://localhost:5000/sentiment`,{
+         text: textoEntrada
+   
+        })
+          .then((response) => {
+                let sentiment = response.data;
+                resultadoElemento.innerText = `Sentimento: ${sentiment.sentiment}`;
+                update_plot(sentiment.probabilities);
+                
+                })
+          .catch((error) => {
+            alert("Erro ao realizar operação")
+            console.error(error)
+          });    
+        
+    }
+
+    function update_plot(predicted_data){
+    var layout = {  margin: {l: 25, r: 20, b: 25, t: 25, pad: 5 },
+                    title: 'Probabilidades',
+                    font:{ family: 'Raleway, sans-serif'},
+                }
+
+    var data = [{predicted_data,
+            x: Object.keys(predicted_data),
+            y: Object.values(predicted_data),
+            type: 'bar'
+        }];
+      Plotly.newPlot('myDiv', data, layout, {displayModeBar: false});
+}
+
+
+</script>
+
+</body>
+</html>

@@ -1,10 +1,10 @@
 {
     "BERT_MODEL": "neuralmind/bert-base-portuguese-cased",
-    "PRE_TRAINED_MODEL": "resource/best_model_state.bin",
+    "PRE_TRAINED_MODEL": "resource/Sentiment_Analitic_model.bin",
     "CLASS_NAMES": [
-        "negative",
-        "neutral",
-        "positive"
+        "negativo",
+        "neutro",
+        "positivo"
     ],
     "MAX_SEQUENCE_LEN": 160
 }

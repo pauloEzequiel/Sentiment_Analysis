@@ -35,9 +35,9 @@ def analysis_text(body:SentimentAnalysisBody):
         result_analysis = SentimentAnalysisResponse(sentiment=sentiment, confidence= confidence, probabilities= probabilities)
 
         probabilities= {
-            'positive': result_analysis.probabilities['positive'],
-            'neutral' : result_analysis.probabilities['neutral'],
-            'negative': result_analysis.probabilities['negative']
+            'positive': result_analysis.probabilities['positivo'],
+            'neutral' : result_analysis.probabilities['neutro'],
+            'negative': result_analysis.probabilities['negativo']
         }
 
         return jsonify(sentiment=result_analysis.sentiment, confidence= result_analysis.confidence, probabilities = probabilities )
