@@ -1,6 +1,6 @@
 # Sentiment API
 
-MVP desenvolvido com o intuito de alicerçar o conteúdo observado na Sprint.
+MVP desenvolvido com o intuito de alicerçar o conteúdo observado na Sprint 3.
 
 ---
 ## Como instalar e executar a API localmente
