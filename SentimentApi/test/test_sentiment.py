@@ -9,7 +9,7 @@ def test_sentimento_positivo_1():
     assert sentiment == 'positivo'
 
 def test_sentimento_positivo_2():
-    predict = model.predict(':) :) :) Exelente')
+    predict = model.predict('c')
     sentiment = predict[0]
     assert sentiment == 'positivo'
 
@@ -72,6 +72,7 @@ def test_frase_sentimento_neutro_4():
     predict = model.predict('Não sei ao certo o que pensar sobre isso.')
     sentiment = predict[0]
     assert sentiment == 'neutro'
+
 
 
 
